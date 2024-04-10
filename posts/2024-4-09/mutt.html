@@ -4,6 +4,10 @@
 	<meta charset="utf-8" />
 	<meta name="description" content="Sabyrzhan Tasbolatov aka novitoll personal website."/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
 <style>
 	.green {
 		color: #00ff37 !important;
@@ -15,6 +19,9 @@
 		font-family: Arial, sans-serif;
 		display: flex;
 		background-color: #000;
+		position: absolute;
+		left: 30%;
+		right: 20%;
 	}
 	.content {
 		margin-left: 0px;
@@ -27,20 +34,21 @@
 		}
 	}
 	pre code {
-		background-color: grey;
-		display: inline-block;
+		display: inline-block !important;
 	}
-
 	pre code.in {
-		display: inline;
+		display: inline !important;
 		padding: 0;
 		background-color: #0fb575;
+	}
+	pre i {
+		background-color: green;
 	}
 </style>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
-		var contentElement = document.getElementById("content");
-		contentElement.innerHTML = contentElement.innerHTML.replace(/(<code>.*?<\/code>)|(`[^`]+`)/g, function(match, codeBlock, inlineCode) {
+		var el = document.getElementById("content");
+		el.innerHTML = el.innerHTML.replace(/(<code>.*?<\/code>)|(`[^`]+`)/g, function(match, codeBlock, inlineCode) {
 			if (codeBlock) {
 				return codeBlock;
 			} else {
@@ -48,11 +56,12 @@
 			}
 		});
 	});
+	hljs.highlightAll();
 </script>
 </head>
 <body style="color: white;">
 <div>
-<h1>Mutt setup for Linux kernel emails</h1>
+<h1>Mutt setup with Gmail labels for Linux kernel emails</h1>
 
 <h4>2024-4-09</h4>
 <h5><a href="https://novitoll.com"><- back</a></h5>
@@ -66,6 +75,11 @@ Gmail does not support bottom-posting reply -- and probably that's the biggest d
 it does support a plain text, but it seems, has some other issues as documented in Linux.
 
 Bottom-posting is the standard of Linux kernel emailing style.
+
+<i>
+> Avoid top-posting and favor interleaved quoting:
+> https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
+</i>
 
 Example of <a href="https://en.wikipedia.org/wiki/Posting_style#:~:text=The%20main%20options%20are%20interleaved,precedes%20the%20quoted%20original%20message).">bottom-posting</a> (prev. message's date + quoted context comes first, then your reply)
 
@@ -119,9 +133,11 @@ later but AFTER checkpatch.pl script).
 
 1.	I've subscribed to the emailing list.
 
-> <i>Majordomo no longer supported
+<i>
+> Majordomo no longer supported
 > To subscribe or unsubscribe to lists, please visit
-> https://subspace.kernel.org/vger.kernel.org.html</i>
+> https://subspace.kernel.org/vger.kernel.org.html
+</i>
 
 So find the interesting email list <a href="https://subspace.kernel.org/vger.kernel.org.html">here</a>.
 
@@ -300,7 +316,7 @@ set ts=8 sw=8 sts=8
 
 and reply in Linux kernel email!
 
-<img src="./mutt_pager.png"/>
+<img src="./mutt_pagerr.png"/>
 
 --
 	Sabyrzhan Tasbolatov
