@@ -23,6 +23,13 @@
 		left: 30%;
 		right: 20%;
 	}
+	hr {
+		margin-left: 0;
+		width: 792px;
+	}
+	a {
+		background-color: white;
+	}
 	.content {
 		margin-left: 0px;
 		font-size: large
@@ -66,7 +73,18 @@
 <h4>2024-4-09</h4>
 <h5><a href="https://novitoll.com"><- back</a></h5>
 
+<!-- BEGIN -->
 <pre class="content" id="content">
+
+Content:
+<ol>
+<li><a href="#linux_kernel_posting_style">Linux kernel postying style</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#mutt_tui">mutt TUI</a></li>
+</ol>
+
+<h3 id="linux_kernel_posting_style">Linux kernel posting style</h3>
+
 I've spent quite some time to understand how properly setup mutt for
 Linux kernel development, so this post should help myself and maybe others as well.
 
@@ -122,14 +140,16 @@ So mutt TUI (terminal UI) is the best, at least, I'd like to adapt to it.
 After reading <a href="http://kroah.com/log/blog/2019/08/14/patch-workflow-with-mutt-2019/">Greg KH post</a> and <a href="https://people.kernel.org/mcgrof/replacing-offlineimap-with-mbsync">this post</a> and <a href="https://gideonwolfe.com/posts/workflow/neomutt/intro/">this post</a>,
 I've prepared my setup for mutt with my Gmail account mailboxes.
 
-<h3>NB</h3>
+<h4>NB</h4>
 
 For sending patches I use `git send-email` with all required steps
 like `linux/scripts/checkpatch.pl` and `kernel/scripts/get_maintainer.pl`.
 So I use mutt only for replying (perhaps I will use mutt for the initial PATCH sending as well
 later but AFTER checkpatch.pl script).
 
-<h3>Setup</h3>
+<hr>
+
+<h3 id="setup">Setup</h3>
 
 1.	I've subscribed to the emailing list.
 
@@ -298,7 +318,9 @@ $ mbsync -a
 C: 3/3  B: 3/3  F: +0/0 *4/4 #0/0  N: +158/158 *4/4 #0/0
 </code>
 
-<h3>mutt TUI</h3>
+<hr>
+
+<h3 id="mutt_tui">mutt TUI</h3>
 
 <code>$ neomutt</code>
 
