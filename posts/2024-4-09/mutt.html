@@ -8,63 +8,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
-<style>
-	.green {
-		color: #00ff37 !important;
-	}
-	.dim {
-		color: grey !important;
-	}
-	body {
-		font-family: Arial, sans-serif;
-		display: flex;
-		background-color: #000;
-		position: absolute;
-		left: 30%;
-		right: 20%;
-	}
-	hr {
-		margin-left: 0;
-		width: 792px;
-	}
-	a {
-		background-color: white;
-	}
-	.content {
-		margin-left: 0px;
-		font-size: large
-	}
-	@media (max-width: 600px) {
-		.content {
-			margin-left: 0;
-			font-size: 9px;
-		}
-	}
-	pre code {
-		display: inline-block !important;
-	}
-	pre code.in {
-		display: inline !important;
-		padding: 0;
-		background-color: #0fb575;
-	}
-	pre i {
-		background-color: green;
-	}
-</style>
-<script>
-	document.addEventListener("DOMContentLoaded", function() {
-		var el = document.getElementById("content");
-		el.innerHTML = el.innerHTML.replace(/(<code>.*?<\/code>)|(`[^`]+`)/g, function(match, codeBlock, inlineCode) {
-			if (codeBlock) {
-				return codeBlock;
-			} else {
-				return '<code class="in">' + inlineCode + '</code>';
-			}
-		});
-	});
-	hljs.highlightAll();
-</script>
+
+	<link rel="stylesheet" href="https://novitoll.com/posts/style.css">
+	<script src="https://novitoll.com/posts/index.js"></script>
 </head>
 <body style="color: white;">
 <div>

@@ -1,0 +1,45 @@
+.green {
+	color: #00ff37 !important;
+}
+.dim {
+	color: grey !important;
+}
+body {
+	font-family: Arial, sans-serif;
+	display: flex;
+	background-color: #000;
+	position: absolute;
+	left: 30%;
+	right: 20%;
+}
+hr {
+	margin-left: 0;
+	width: 84.5%;
+}
+a {
+	background-color: white;
+}
+.content {
+	margin-left: 0px;
+	font-size: large
+}
+@media (max-width: 600px) {
+	.content {
+		margin-left: 0;
+		font-size: 9px;
+	}
+}
+pre code {
+	display: inline-block !important;
+}
+pre code.in {
+	display: inline !important;
+	padding: 0;
+	background-color: #0fb575;
+}
+pre i {
+	background-color: green;
+}
+ol { counter-reset: item }
+li { display: block }
+li:before { content: counters(item, ".") " "; counter-increment: item }
