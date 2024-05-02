@@ -16,7 +16,7 @@
 </head>
 <body style="color: white;">
 <div>
-<h1>Pahole: C, Go, rust, rust-for-linux</h1>
+<h1>Pahole: C, Go, rust</h1>
 
 <h4>2024-4-20</h4>
 <h5><a href="https://novitoll.com"><- back</a></h5>
@@ -36,7 +36,6 @@ Content:
 		<li><a href="#pahole_with_rust_unit_structs">unit structs</a></li>
 	</ol>
 </li>
-<li><a href="#pahole_with_rust_for_linux">pahole with rust-for-linux</a></li>
 </ol>
 
 <i>
@@ -64,9 +63,9 @@ I also use pahole during Linux kernel development,
 This is a simple userspace C program with `struct foo` and its 4 fields (members):
 
 <code class="language-c">
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
 
 struct foo {
 	int a;
@@ -122,7 +121,7 @@ Let's take a look at gdb how it looks like:
 
 <code class="language-x86asm">
 ...
-   0x00005555555551b5 <+44>:	call   0x555555555090 <memset@plt>
+   0x00005555555551b5 <+44>:	call   0x555555555090 &lt;memset@plt&gt;
    0x00005555555551ba <+49>:	mov    DWORD PTR [rbp-0x20],0xff
    0x00005555555551c1 <+56>:	mov    BYTE PTR [rbp-0x1c],0x1
    0x00005555555551c5 <+60>:	movabs rax,0x7f01020304050608
@@ -255,15 +254,15 @@ struct main.foo {
 Now using gdb again on Go binary (compiled via `go build`):
 
 <code class="language-x86asm">
-   0x47c592 <main.main+18>:	mov    DWORD PTR [rsp+0x38],0x0
-   0x47c59a <main.main+26>:	mov    BYTE PTR [rsp+0x3c],0x0
-   0x47c59f <main.main+31>:	mov    QWORD PTR [rsp+0x40],0x0
-   0x47c5a8 <main.main+40>:	mov    DWORD PTR [rsp+0x48],0x0
-   0x47c5b0 <main.main+48>:	mov    DWORD PTR [rsp+0x38],0xff
-   0x47c5b8 <main.main+56>:	mov    BYTE PTR [rsp+0x3c],0x1
-   0x47c5bd <main.main+61>:	movabs rcx,0x7f01020304050608
-   0x47c5c7 <main.main+71>:	mov    QWORD PTR [rsp+0x40],rcx
-=> 0x47c5cc <main.main+76>:	mov    DWORD PTR [rsp+0x48],0x7f414243
+   0x47c592 &lt;main.main+18&gt;:	mov    DWORD PTR [rsp+0x38],0x0
+   0x47c59a &lt;main.main+26&gt;:	mov    BYTE PTR [rsp+0x3c],0x0
+   0x47c59f &lt;main.main+31&gt;:	mov    QWORD PTR [rsp+0x40],0x0
+   0x47c5a8 &lt;main.main+40&gt;:	mov    DWORD PTR [rsp+0x48],0x0
+   0x47c5b0 &lt;main.main+48&gt;:	mov    DWORD PTR [rsp+0x38],0xff
+   0x47c5b8 &lt;main.main+56&gt;:	mov    BYTE PTR [rsp+0x3c],0x1
+   0x47c5bd &lt;main.main+61&gt;:	movabs rcx,0x7f01020304050608
+   0x47c5c7 &lt;main.main+71&gt;:	mov    QWORD PTR [rsp+0x40],rcx
+=> 0x47c5cc &lt;main.main+76&gt;:	mov    DWORD PTR [rsp+0x48],0x7f414243
 ...
 gdb-peda$ x/3gx $rsp+0x38
 0xc00004a708:	0x00000001000000ff	0x7f01020304050608
@@ -359,7 +358,7 @@ die__process_class: tag not supported 0x33 (variant_part)!
 Let's investigate this a bit later, here is the full STDOUT of pahole:
 
 <code class="language-c" style="height: 300px; width: 792px; overflow-y: scroll">
-struct <std::rt::lang_start::{closure_env#0}<()> as core::ops::function::Fn<()>>::{vtable_type} {
+struct &lt;std::rt::lang_start::{closure_env#0}&lt;()&gt; as core::ops::function::Fn&lt;()&gt;&gt;::{vtable_type} {
 	() *                       drop_in_place __attribute__((__aligned__(8))); /*     0     8 */
 	usize                      size __attribute__((__aligned__(8))); /*     8     8 */
 	usize                      align __attribute__((__aligned__(8))); /*    16     8 */
@@ -482,11 +481,11 @@ struct Error {
 struct Formatter {
 private:
 
-	struct Option<usize>       width __attribute__((__aligned__(8))); /*     0    16 */
+	struct Option&lt;usize&gt;       width __attribute__((__aligned__(8))); /*     0    16 */
 
 	/* XXX last struct has 16 bytes of padding */
 
-	struct Option<usize>       precision __attribute__((__aligned__(8))); /*    16    16 */
+	struct Option&lt;usize&gt;       precision __attribute__((__aligned__(8))); /*    16    16 */
 
 	/* XXX last struct has 16 bytes of padding */
 
@@ -667,18 +666,18 @@ Breakpoint 1 at 0x8b07: file main.rs, line 10.
 gdb-peda$ r
 ...
 gdb-peda$ x/11i $rip
-   0x55555555cb07 <_ZN4main4main17h..f933E+7>:	mov    DWORD PTR [rsp+0x50],0xff
-   0x55555555cb0f <_ZN4main4main17h..f933E+15>:	lea    rax,[rsp+0x54]
-   0x55555555cb14 <_ZN4main4main17h..f933E+20>:	mov    QWORD PTR [rsp+0x8],rax
-   0x55555555cb19 <_ZN4main4main17h..f933E+25>:	mov    BYTE PTR [rsp+0x54],0x1
-   0x55555555cb1e <_ZN4main4main17h..f933E+30>:	lea    rax,[rsp+0x58]
-   0x55555555cb23 <_ZN4main4main17h..f933E+35>:	mov    QWORD PTR [rsp+0x18],rax
-   0x55555555cb28 <_ZN4main4main17h..f933E+40>:	movabs rax,0x7f01020304050608
-   0x55555555cb32 <_ZN4main4main17h..f933E+50>:	mov    QWORD PTR [rsp+0x58],rax
-   0x55555555cb37 <_ZN4main4main17h..f933E+55>:	lea    rax,[rsp+0x60]
-   0x55555555cb3c <_ZN4main4main17h..f933E+60>:	mov    QWORD PTR [rsp+0x40],rax
-   0x55555555cb41 <_ZN4main4main17h..f933E+65>:	mov    DWORD PTR [rsp+0x60],0x7f414243
-=> 0x55555555cb49 <_ZN4main4main17h..f933E+73>:	lea    rcx,[rsp+0x50]
+   0x55555555cb07 &lt;_ZN4main4main17h..f933E+7>:	mov    DWORD PTR [rsp+0x50],0xff
+   0x55555555cb0f &lt;_ZN4main4main17h..f933E+15>:	lea    rax,[rsp+0x54]
+   0x55555555cb14 &lt;_ZN4main4main17h..f933E+20>:	mov    QWORD PTR [rsp+0x8],rax
+   0x55555555cb19 &lt;_ZN4main4main17h..f933E+25>:	mov    BYTE PTR [rsp+0x54],0x1
+   0x55555555cb1e &lt;_ZN4main4main17h..f933E+30>:	lea    rax,[rsp+0x58]
+   0x55555555cb23 &lt;_ZN4main4main17h..f933E+35>:	mov    QWORD PTR [rsp+0x18],rax
+   0x55555555cb28 &lt;_ZN4main4main17h..f933E+40>:	movabs rax,0x7f01020304050608
+   0x55555555cb32 &lt;_ZN4main4main17h..f933E+50>:	mov    QWORD PTR [rsp+0x58],rax
+   0x55555555cb37 &lt;_ZN4main4main17h..f933E+55>:	lea    rax,[rsp+0x60]
+   0x55555555cb3c &lt;_ZN4main4main17h..f933E+60>:	mov    QWORD PTR [rsp+0x40],rax
+   0x55555555cb41 &lt;_ZN4main4main17h..f933E+65>:	mov    DWORD PTR [rsp+0x60],0x7f414243
+=> 0x55555555cb49 &lt;_ZN4main4main17h..f933E+73>:	lea    rcx,[rsp+0x50]
 
 gdb-peda$ x/3fx $rsp+0x50
 0x7fffffffd6d0:	0x00000001000000ff	0x7f01020304050608
@@ -738,17 +737,17 @@ I also tested it with 0 optimization flag via
 
 <code class="language-x86asm">
 gdb-peda$ x/11i $rip
-   0x55555555cc17 <_ZN10main_tuple4main17h..2a7E+7>:	lea    rcx,[rsp+0x58]
-   0x55555555cc1c <_ZN10main_tuple4main17h..2a7E+12>:	mov    DWORD PTR [rsp+0x58],0xff
-   0x55555555cc24 <_ZN10main_tuple4main17h..2a7E+20>:	lea    rax,[rsp+0x60]
-   0x55555555cc29 <_ZN10main_tuple4main17h..2a7E+25>:	mov    QWORD PTR [rsp+0x10],rax
-   0x55555555cc2e <_ZN10main_tuple4main17h..2a7E+30>:	mov    BYTE PTR [rsp+0x60],0x1
-   0x55555555cc33 <_ZN10main_tuple4main17h..2a7E+35>:	movabs rax,0x7f01020304050608
-   0x55555555cc3d <_ZN10main_tuple4main17h..2a7E+45>:	mov    QWORD PTR [rsp+0x50],rax
-   0x55555555cc42 <_ZN10main_tuple4main17h..2a7E+50>:	lea    rax,[rsp+0x5c]
-   0x55555555cc47 <_ZN10main_tuple4main17h..2a7E+55>:	mov    QWORD PTR [rsp+0x40],rax
-   0x55555555cc4c <_ZN10main_tuple4main17h..2a7E+60>:	mov    DWORD PTR [rsp+0x5c],0x7f414243
-=> 0x55555555cc54 <_ZN10main_tuple4main17h..2a7E+68>:	mov    QWORD PTR [rsp+0x1d8],rcx
+   0x55555555cc17 &lt;_ZN10main_tuple4main17h..2a7E+7>:	lea    rcx,[rsp+0x58]
+   0x55555555cc1c &lt;_ZN10main_tuple4main17h..2a7E+12>:	mov    DWORD PTR [rsp+0x58],0xff
+   0x55555555cc24 &lt;_ZN10main_tuple4main17h..2a7E+20>:	lea    rax,[rsp+0x60]
+   0x55555555cc29 &lt;_ZN10main_tuple4main17h..2a7E+25>:	mov    QWORD PTR [rsp+0x10],rax
+   0x55555555cc2e &lt;_ZN10main_tuple4main17h..2a7E+30>:	mov    BYTE PTR [rsp+0x60],0x1
+   0x55555555cc33 &lt;_ZN10main_tuple4main17h..2a7E+35>:	movabs rax,0x7f01020304050608
+   0x55555555cc3d &lt;_ZN10main_tuple4main17h..2a7E+45>:	mov    QWORD PTR [rsp+0x50],rax
+   0x55555555cc42 &lt;_ZN10main_tuple4main17h..2a7E+50>:	lea    rax,[rsp+0x5c]
+   0x55555555cc47 &lt;_ZN10main_tuple4main17h..2a7E+55>:	mov    QWORD PTR [rsp+0x40],rax
+   0x55555555cc4c &lt;_ZN10main_tuple4main17h..2a7E+60>:	mov    DWORD PTR [rsp+0x5c],0x7f414243
+=> 0x55555555cc54 &lt;_ZN10main_tuple4main17h..2a7E+68>:	mov    QWORD PTR [rsp+0x1d8],rcx
 
 gdb-peda$ x/10gx $rsp+0x50
 0x7fffffffd5e0:	0x7f01020304050608	0x7f414243000000ff
@@ -792,12 +791,6 @@ So in general, we can say we've observed 2 different types of Rust structs,
 compiled with `rustc` (haven't checked with other LLVM compilers though),
 and when classic Rust structs align fields similar to C structs, whereas
 Rust tuple structs align with optimization.
-
-<hr>
-
-<h3 id="pahole_with_rust_for_linux" class="header">pahole with rust-for-linux</h3>
-
-TBD
 
 --
 	Sabyrzhan Tasbolatov
