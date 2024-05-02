@@ -756,6 +756,41 @@ gdb-peda$ x/10gx $rsp+0x50
 
 So bigger data type like u64 is filled first, then u32, u32 and u8.
 
+I can't find in rust source code where it aligns with such as sorting,
+all I can find a starting point in rust AST:
+
+<code class="language-rust">
+// compiler/rustc_ast/src/ast.rs
+pub enum PatKind {
+...
+	/// A struct or struct variant pattern (e.g., `Variant {x, y, ..}`).
+	Struct(Option<P<QSelf>>, Path, ThinVec<PatField>, PatFieldsRest),
+
+	/// A tuple struct/variant pattern (`Variant(x, y, .., z)`).
+	TupleStruct(Option<P<QSelf>>, Path, ThinVec<P<Pat>>),
+...
+}
+...
+	match self.kind {
+...
+		TupleStruct(_, s, _) | Tuple(s, _) | Or(s) => s.iter().all(|p| p.walk_short_(it)),
+...
+	}
+
+	/// Walk the pattern in left-to-right order,
+	/// short circuiting (with `.all(..)`) if `false` is returned.
+	///
+	/// Note that when visiting e.g. `Tuple(ps)`,
+	/// if visiting `ps[0]` returns `false`,
+	/// then `ps[1]` will not be visited.
+	pub fn walk_short(&self, mut it: impl FnMut(&Pat<'hir>) -> bool) -> bool {
+		self.walk_short_(&mut it)
+	}
+...
+</code>
+
+So not sure where the logic is of such as sorting of tuple struct fields but interesting, indeed.
+
 <h3 id="pahole_with_rust_unit_structs" class="header">rust: unit structs</h3>
 
 The last 3rd unit structs of Rust. Well, they are mostly for generics, so
